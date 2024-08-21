@@ -8,7 +8,7 @@ def create_database_if_not_exists(database_name):
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="qt008"
+            password="g2000"
         )
         cursor = connection.cursor()
 
@@ -32,7 +32,7 @@ def create_table_and_insert_data(database_name):
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="qt008",
+            password="g2000",
             database=database_name
         )
         cursor = connection.cursor()
@@ -51,15 +51,14 @@ def create_table_and_insert_data(database_name):
             )
         """)
         print("Table 'employee' created or already exists.")
+        name = input("enter new name ")
+        role = input("enter new role ")
+        salary = int(input("enter new salary "))
 
         # Insert data into the table
         sql = 'INSERT INTO employee (name, role, salary) VALUES (%s, %s, %s)'
-        values = [
-            ('gokul', 'developer', 10000),
-            ('mani', 'developer', 20000),
-            ('bhakya', 'developer', 30000),
-        ]
-        cursor.executemany(sql, values)
+        values = (name, role, salary)
+        cursor.executemany(sql, [values])
         connection.commit()
         print('Data inserted successfully.')
 
@@ -77,7 +76,7 @@ def update_database(database_var):
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="qt008",
+            password="g2000",
             database=database_var
         )
         cursor = connection.cursor()
@@ -99,7 +98,7 @@ def delete_id_database(database_var):
     connection = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="qt008",
+        password="g2000",
         database=database_var
     )
     cursor = connection.cursor()
@@ -116,7 +115,7 @@ def duplicate_data_removal_database(database_var):
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="qt008",
+            password="g2000",
             database=database_var
         )
         cursor = connection.cursor()
@@ -150,7 +149,7 @@ def create_elixir_table(database_var):
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="qt008",
+            password="g2000",
             database=database_var
         )
         cursor = connection.cursor()
@@ -180,7 +179,7 @@ def update_data_from_employee_to_elixir(database_var):
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="qt008",
+            password="g2000",
             database=database_var
         )
         cursor = connection.cursor()
@@ -215,7 +214,7 @@ def logic_implementation_menu(database_var):
     print("Press:")
     print("1 to Add Employee")
     print("2 to Remove Employee")
-    print("3 to update salary for Employee")
+    print("3 to update Employee Details")
     print("4 to Display Employees")
     print("5 to Exit")
 
@@ -224,7 +223,7 @@ def logic_implementation_menu(database_var):
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="qt008",
+            password="g2000",
             database=database_name
         )
         cursor = connection.cursor()
@@ -232,24 +231,29 @@ def logic_implementation_menu(database_var):
         print(f"Error: {err}")
         print("Please enter a valid database.")
     if menu_input == 1:
-        add_Employee_menu(cursor)
+        create_table_and_insert_data(database_var)
     elif menu_input == 2:
-        remove_employee_menu(cursor)
+        delete_id_database(database_var)
     elif menu_input == 3:
-        update_employee_menu(cursor)
+        update_database(database_var)
     elif menu_input == 4:
-        delete_employee_menu(cursor)
+        select_query = "SELECT * FROM employee"
+        cursor.execute(select_query)
+        employee_data = cursor.fetchall()
+        for i in employee_data:
+            print(i)
     elif menu_input == 5:
-        return "Thank you for using Employee Management Record!"
+        print("Thank you for using Employee Management Record!")
     else:
         print("Please provide valid input!")
         logic_implementation_menu(database_var)
+    logic_implementation_menu(database_var)
 
-def add_Employee_menu(database_var, update_data_from_employee_to_elixir):
-
+#def add_Employee_using_menu(database_var, update_data_from_employee_to_elixir):
 
 # Define your database name
 database_var = 'emp'
+database_name = 'emp'
 # Create the database if it does not exist
 #create_database_if_not_exists(database_var)
 #create_table_and_insert_data(database_var)
@@ -257,4 +261,5 @@ database_var = 'emp'
 #delete_id_database(database_var)
 #duplicate_data_removal_database(database_var)
 #create_elixir_table(database_var)
-update_data_from_employee_to_elixir(database_var)
+#update_data_from_employee_to_elixir(database_var)
+print(logic_implementation_menu(database_var))
