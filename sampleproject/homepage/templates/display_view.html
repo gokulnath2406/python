@@ -1,0 +1,24 @@
+<div class="main">
+  <table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for data in dataset %}
+        <tr>
+          <td><a href="/detailed_view/{{ data.id }}">{{ data.name }}</a></td>
+          <td>
+            <a href="/update_view/{{ data.id }}?name={{ data.name }}">Update</a>
+          </td>
+          <td>
+            <a href="/delete_view/{{ data.id }}?name={{ data.name }}">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
