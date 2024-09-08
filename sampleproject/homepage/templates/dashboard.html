@@ -7,6 +7,7 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -16,6 +17,13 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+        }
+
+        .welcome-text {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
         .button-container {
@@ -45,12 +53,32 @@
         .button-container a:hover {
             background-color: #0056b3;
         }
+
+        .about-us {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .about-us a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .about-us a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
+    <h1><div class="welcome-text">Welcome to the Employee Management System</div></h1>
     <div class="button-container">
         <a href="/view_employee" class="view-employees-button">View Employees</a>
         <a href="/add_employee" class="add-employees-button">Add Employee</a>
+    </div>
+    <div class="about-us">
+        <a href="https://www.linkedin.com/in/gokul-nath-595372194/" target="_blank">About Us</a>
     </div>
 </body>
 </html>
