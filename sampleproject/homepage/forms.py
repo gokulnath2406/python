@@ -14,7 +14,7 @@ class GeeksForm(forms.ModelForm):
 		fields = [
 			"name",
 			"age",
-			"status",
 			"salary",
-			"designation"
+			"designation",
+			"status"
 		]

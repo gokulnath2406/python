@@ -12,7 +12,5 @@ class ElixirModel(models.Model):
 	age = models.IntegerField()
 	salary = models.IntegerField()
 
-	# renames the instances of the model
-	# with their title name
 	def __str__(self):
 		return self.name

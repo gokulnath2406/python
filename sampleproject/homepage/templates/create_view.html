@@ -1,10 +1,89 @@
-<form method="POST" enctype="multipart/form-data">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee creation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://www.mastersofterp.com/images/HR-Management.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-	<!-- Security token -->
-	{% csrf_token %}
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
 
-	<!-- Using the formset -->
-	{{ form.as_p }}
-	
-	<input type="submit" value="Submit">
-</form>
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form p {
+            width: 100%;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        input[type="submit"],
+        .view-employees-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover,
+        .view-employees-button:hover {
+            background-color: #0056b3;
+        }
+
+        .view-employees-button {
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            line-height: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form method="POST" enctype="multipart/form-data">
+            <h1><center>EMPLOYEE CREATION PAGE</center></h1>
+            <!-- Security token -->
+            {% csrf_token %}
+
+            <!-- Using the formset -->
+            {{ form.as_p }}
+
+            <div class="button-container">
+                <input type="submit" value="Submit">
+                <a href="/view_employee" class="view-employees-button">View Employee</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
