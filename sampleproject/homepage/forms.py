@@ -16,5 +16,6 @@ class GeeksForm(forms.ModelForm):
 			"age",
 			"salary",
 			"designation",
-			"status"
+			"status",
+			"password"
 		]

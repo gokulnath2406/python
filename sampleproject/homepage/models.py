@@ -1,7 +1,6 @@
 # import the standard Django Model
 # from built-in library
 from django.db import models
-
 # declare a new model with a name "GeeksModel"
 class ElixirModel(models.Model):
 
@@ -11,6 +10,8 @@ class ElixirModel(models.Model):
 	status = models.BooleanField(default = True)
 	age = models.IntegerField()
 	salary = models.IntegerField()
+	password = models.CharField(max_length = 15)
 
 	def __str__(self):
 		return self.name
+
