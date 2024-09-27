@@ -13,9 +13,11 @@ class GeeksForm(forms.ModelForm):
 		# specify fields to be used
 		fields = [
 			"name",
+			"phone_number",
+			"email",
 			"age",
 			"salary",
 			"designation",
+			"password",
 			"status",
-			"password"
 		]
