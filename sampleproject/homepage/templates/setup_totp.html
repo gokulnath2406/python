@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Setup TOTP</title>
+</head>
+<body>
+    <h1>Setup TOTP</h1>
+    <p>Scan the following QR code with your TOTP app (e.g., Google Authenticator).</p>
+    <img src="data:image/png;base64,{{ qr_code }}" alt="TOTP QR Code">
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">I have scanned the code</button>
+    </form>
+</body>
+</html>

@@ -4,6 +4,9 @@ from .views import display_view, detailed_view
 from .views import delete_view
 
 urlpatterns = [
+    
+    path('setup_totp/', views.setup_totp, name='setup_totp'),
+    path('verify_totp/', views.verify_totp, name='verify_totp'),
     path('login_page/', views.login_view, name='login_page'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('add_employee/', views.create_view, name='add_employee'),

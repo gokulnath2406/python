@@ -1,5 +1,6 @@
 from django import forms
 from .models import ElixirModel
+from django_otp.forms import OTPAuthenticationForm
 
 
 # creating a form
@@ -21,3 +22,6 @@ class GeeksForm(forms.ModelForm):
 			"password",
 			"status",
 		]
+
+class TOTPVerifyForm(forms.Form):
+    token = forms.CharField(max_length=6, required=True, label="TOTP Token")
