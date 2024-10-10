@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import display_view, detailed_view
-from .views import delete_view
+from .views import delete_view, attendance_calendar
 
 urlpatterns = [
     
@@ -13,5 +13,6 @@ urlpatterns = [
     path('view_employee/', views.display_view, name='view_employee'),
     path('detailed_view/<int:id>', views.detailed_view, name='view_detail'),
     path('delete_view/<int:id>', views.delete_view),
-    path('update_view/<int:id>', views.update_view)
+    path('update_view/<int:id>', views.update_view),
+    path('attendance/', views.attendance_calendar, name='attendance_calendar')
 ]

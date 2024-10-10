@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Calendar</title>
+    <style>
+        /* Attendance Calendar Styling */
+        .attendance-calendar {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;   
+
+        }
+
+        .calendar-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .attendance-status {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .attendance-status input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .attendance-status label {
+            cursor: pointer;
+        }
+
+        .submit-button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;   
+
+        }
+
+        .submit-button:hover {
+            background-color:   
+ #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div class="attendance-calendar">
+        <h2 class="calendar-header">Attendance Calendar</h2>
+        <form method="POST" action="{% url 'attendance_calendar' %}">
+            {% csrf_token %}
+            <input type="hidden" name="selected_day" id="selected_day">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in month_calendar %}
+                    <tr>
+                        {% for day in week %}
+                        <td>
+                            {% if day %}
+                            <div class="attendance-status">
+                                <input type="radio" name="status" value="present" id="present_{{ day }}"{% if attendance_dict.get(day) == 'present' %} checked{% endif %}> Present
+                                <input type="radio" name="status" value="absent" id="absent_{{ day }}"{% if attendance_dict.get(day) == 'absent' %} checked{% endif %}> Absent
+                                <label for="present_{{ day }}">Present</label>
+                                <label for="absent_{{ day }}">Absent</label>
+                            </div>
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <button type="submit" class="submit-button">Submit Attendance</button>
+        </form>
+    </div>
+</body>
+</html>

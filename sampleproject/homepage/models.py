@@ -37,3 +37,16 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         user.email = instance.email
         user.save()
 
+class Attendance(models.Model):
+    employee = models.ForeignKey(ElixirModel, on_delete=models.CASCADE, related_name='attendances')
+    date = models.DateField()
+    status = models.CharField(max_length=10, choices=[('present', 'Present'), ('absent', 'Absent'), ('late', 'Late')])
+    in_time = models.TimeField(null=True, blank=True)
+    out_time = models.TimeField(null=True, blank=True)
+    remarks = models.TextField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('employee', 'date')  # Ensure unique attendance records per employee per day
+
+    def __str__(self):
+        return f"{self.employee.username} - {self.date}"
