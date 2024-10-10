@@ -36,3 +36,4 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         user.set_password(instance.password)
         user.email = instance.email
         user.save()
+
