@@ -3,6 +3,7 @@ from .models import ElixirModel
 from django_otp.forms import OTPAuthenticationForm
 
 
+
 # creating a form
 class GeeksForm(forms.ModelForm):
 
@@ -13,6 +14,7 @@ class GeeksForm(forms.ModelForm):
 
 		# specify fields to be used
 		fields = [
+			'photo',
 			"name",
 			"phone_number",
 			"email",
@@ -21,6 +23,7 @@ class GeeksForm(forms.ModelForm):
 			"designation",
 			"password",
 			"status",
+			'img_description',
 		]
 
 class TOTPVerifyForm(forms.Form):

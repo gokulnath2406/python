@@ -1,6 +1,7 @@
 import qrcode
 import base64
 import io
+import os 
 from datetime import date, datetime, timedelta
 from calendar import monthcalendar
 from .models import ElixirModel, create_or_update_user_profile, Attendance
@@ -13,6 +14,7 @@ from django_otp.decorators import otp_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from .forms import GeeksForm, TOTPVerifyForm
+from django.core.files.storage import FileSystemStorage
 
 @login_required
 def setup_totp(request):
@@ -96,9 +98,15 @@ def display_view(request):
     return render(request, "display_view.html", context)
 
 def detailed_view(request, id):
-    context = {}
-    context['dataset'] = ElixirModel.objects.get(id=id)
-    return render(request, "detailed_view.html", context)
+    employee = get_object_or_404(ElixirModel, id=id)
+    dataset = {
+        'name': employee.name,
+        'age': employee.age,
+        'designation': employee.designation,
+        'salary': employee.salary,
+        'photo_url': employee.photo.url if employee.photo else None
+    }
+    return render(request, "detailed_view.html", {'dataset': dataset})
 
 def delete_view(request, id):
     obj = get_object_or_404(ElixirModel, id=id)
@@ -109,16 +117,30 @@ def delete_view(request, id):
 def update_view(request, id):
     context = {}
     obj = get_object_or_404(ElixirModel, id=id)
-    form = GeeksForm(request.POST or None, instance=obj)
-    if form.is_valid():
-        elixir_instance = form.save()
-        user = elixir_instance.user
-        user.username = elixir_instance.name
-        user.set_password(elixir_instance.password)
-        user.email = elixir_instance.email
-        user.save()
-        return redirect('view_employee')
+    if request.method == 'POST':
+        form = GeeksForm(request.POST, request.FILES, instance=obj)
+        if form.is_valid():
+            elixir_instance = form.save()
+            user = elixir_instance.user
+            user.username = elixir_instance.name
+            user.set_password(elixir_instance.password)
+            user.email = elixir_instance.email
+            user.save()
+            
+            # Handle file upload
+            if 'photo' in request.FILES:
+                photo = request.FILES['photo']
+                fs = FileSystemStorage()
+                filename = fs.save(photo.name, photo)
+                elixir_instance.photo = fs.url(filename)
+                elixir_instance.save()
+            
+            return redirect('view_employee')
+    else:
+        form = GeeksForm(instance=obj)
+
     context["form"] = form
+    context["object"] = obj
     return render(request, "update_view.html", context)
 
 @login_required

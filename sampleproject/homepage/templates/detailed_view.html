@@ -20,13 +20,31 @@
         }
 
         .main {
-            width: 50%;
+            width: 60%;
             margin: 20px auto;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .photo {
+            margin-right: 20px;
+        }
+
+        .photo img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+
+        .details {
+            flex-grow: 1;
         }
 
         .detail-item {
@@ -42,35 +60,30 @@
             margin-left: 10px;
             color: #555;
         }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .detail-row:not(:last-child) {
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-        }
     </style>
 </head>
 <body>
     <div class="main">
-        <div class="detail-item">
-            <span class="detail-label">Name:</span>
-            <span class="detail-value">{{ dataset.name }}</span>
+        <div class="photo">
+            <img src="image.png" alt="Employee Photo">
         </div>
-        <div class="detail-item">
-            <span class="detail-label">Age:</span>
-            <span class="detail-value">{{ dataset.age }}</span>
-        </div>
-        <div class="detail-item">
-            <span class="detail-label">Designation:</span>
-            <span class="detail-value">{{ dataset.designation }}</span>
-        </div>
-        <div class="detail-item">
-            <span class="detail-label">Salary:</span>
-            <span class="detail-value">{{ dataset.salary }}</span>
+        <div class="details">
+            <div class="detail-item">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value">Ajay</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Age:</span>
+                <span class="detail-value">28</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Designation:</span>
+                <span class="detail-value">Developer</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Salary:</span>
+                <span class="detail-value">100000000</span>
+            </div>
         </div>
     </div>
 </body>

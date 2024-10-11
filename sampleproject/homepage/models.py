@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class ElixirModel(models.Model):
+    photo = models.ImageField(upload_to='photos/', null=True, blank=True)
+    img_description = models.CharField(max_length=255, default="")
     name = models.CharField(max_length=200)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', default=1)
     phone_number = PhoneNumberField(max_length=128, default="", region='IN')

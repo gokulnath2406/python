@@ -37,7 +37,8 @@
     input[type="email"],
     input[type="password"],
     select,
-    textarea {
+    textarea,
+    input[type="file"] {
       width: 100%;
       padding: 10px;
       margin: 5px 0 10px;
@@ -45,6 +46,13 @@
       border-radius: 5px;
       box-sizing: border-box;
       font-size: 1em;
+    }
+    img {
+      max-width: 100%;
+      max-height: 200px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
       padding: 10px 20px;
@@ -63,10 +71,22 @@
 </head>
 <body>
   <div class="main">
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
 
       {{ form.as_p }}
+
+      {% if object.photo %}
+        <p>
+          <label>Current Photo:</label><br>
+          <img src="{{ object.photo.url }}" alt="Current Photo">
+        </p>
+      {% endif %}
+
+      <p>
+        <label for="photo">Upload New Photo:</label>
+        <input type="file" id="photo" name="photo">
+      </p>
 
       <button type="submit">Update</button>
     </form>

@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from .views import display_view, detailed_view
 from .views import delete_view, attendance_calendar
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     
@@ -15,4 +17,4 @@ urlpatterns = [
     path('delete_view/<int:id>', views.delete_view),
     path('update_view/<int:id>', views.update_view),
     path('attendance/', views.attendance_calendar, name='attendance_calendar')
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
