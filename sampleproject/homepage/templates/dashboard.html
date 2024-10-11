@@ -5,64 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+        }
+
+        .openbtn:hover {
+            background-color: #007bff;
+        }
+
+        .content {
+            transition: margin-left .5s;
+            padding: 16px;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-image: url('https://watermark.lovepik.com/photo/50043/9578.jpg_wh1200.jpg');
+            background-image: url('/api/placeholder/1200/800');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            overflow-y: auto;
         }
 
         .welcome-text {
             font-size: 24px;
             color: #000000;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
         }
 
-        .button-container {
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .button-container a {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 10px;
-            text-decoration: none;
-            display: inline-block;
-            width: 200px;
+        .description {
             font-size: 16px;
+            color: #000000;
             text-align: center;
+            max-width: 800px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
         }
 
-        .button-container a:hover {
-            background-color: #0056b3;
+        .why-xyz {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000000;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+            max-width: 800px;
+        }
+
+        .feature-item {
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+
+        .feature-description {
+            font-size: 14px;
+            color: #333333;
         }
 
         .about-us {
             margin-top: 20px;
             font-size: 14px;
-            color: #fff;
+            color: #000000;
             text-align: center;
         }
 
         .about-us a {
-            color: #007bff;
+            color: #0056b3;
             text-decoration: none;
         }
 
@@ -72,13 +155,62 @@
     </style>
 </head>
 <body>
-    <h1><div class="welcome-text">Welcome to the Employee Management System</div></h1>
-    <div class="button-container">
-        <a href="/view_employee" class="view-employees-button">View Employees</a>
-        <a href="/add_employee" class="add-employees-button">Add Employee</a>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/view_employee">View Employees</a>
+        <a href="/add_employee">Add Employee</a>
     </div>
-    <div class="about-us">
-        <a href="https://www.linkedin.com/in/gokul-nath-595372194/" target="_blank">About Us</a>
+
+    <button class="openbtn" onclick="toggleNav()">☰ Menu</button>
+
+    <div id="main" class="content">
+        <h1><div class="welcome-text">Welcome to the Employee Management System</div></h1>
+        <div class="description">
+            XYZ is a 100% open source, modern, user-friendly solution to drive excellence within your team. Simplify your HR and Payroll operations with a product crafted as per your needs.
+        </div>
+        <div class="why-xyz">Why XYZ HR?</div>
+        <ul class="feature-list">
+            <li class="feature-item">
+                <div class="feature-number">1</div>
+                <div class="feature-title">100% open source</div>
+                <div class="feature-description">XYZ HR is a 100% open-source HR & Payroll product, offering you complete transparency and flexibility.</div>
+            </li>
+            <li class="feature-item">
+                <div class="feature-number">2</div>
+                <div class="feature-title">Affordable & inclusive</div>
+                <div class="feature-description">Say goodbye to overvalued SaaS solutions with inflated per-user pricing. With XYZ HR, your software expenses wouldn't grow as your team grows. Deliver the best employee and HR experience with a product designed for everyone in the organization.</div>
+            </li>
+            <li class="feature-item">
+                <div class="feature-number">3</div>
+                <div class="feature-title">Highly customizable</div>
+                <div class="feature-description">Configure and customize to your liking. Create reports, forms, custom fields, print formats, and change layouts on the fly!</div>
+            </li>
+        </ul>
+        <div class="about-us">
+            <a href="https://www.linkedin.com/in/gokul-nath-595372194/" target="_blank">About Us</a>
+        </div>
     </div>
+
+    <script>
+        function toggleNav() {
+            var sidebar = document.getElementById("mySidebar");
+            var main = document.getElementById("main");
+            if (sidebar.style.width === "250px") {
+                closeNav();
+            } else {
+                openNav();
+            }
+        }
+
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
 </body>
 </html>
