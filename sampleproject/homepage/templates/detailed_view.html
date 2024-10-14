@@ -25,7 +25,7 @@
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
@@ -33,6 +33,7 @@
 
         .photo {
             margin-right: 20px;
+            flex-shrink: 0;
         }
 
         .photo img {
@@ -65,24 +66,28 @@
 <body>
     <div class="main">
         <div class="photo">
-            <img src="image.png" alt="Employee Photo">
+            {% if dataset.photo_url %}
+                <img src="{{ dataset.photo_url }}" alt="Employee Photo">
+            {% else %}
+                <p>No photo available</p>
+            {% endif %}
         </div>
         <div class="details">
             <div class="detail-item">
                 <span class="detail-label">Name:</span>
-                <span class="detail-value">Ajay</span>
+                <span class="detail-value">{{ dataset.name }}</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Age:</span>
-                <span class="detail-value">28</span>
+                <span class="detail-value">{{ dataset.age }}</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Designation:</span>
-                <span class="detail-value">Developer</span>
+                <span class="detail-value">{{ dataset.designation }}</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Salary:</span>
-                <span class="detail-value">100000000</span>
+                <span class="detail-value">{{ dataset.salary }}</span>
             </div>
         </div>
     </div>
