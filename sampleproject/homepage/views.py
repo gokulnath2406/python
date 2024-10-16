@@ -22,11 +22,11 @@ def setup_totp(request):
     device = TOTPDevice.objects.filter(user=user, confirmed=True).first()
     if device:
         return HttpResponse("TOTP already configured.")
-    
+
     if request.method == 'POST':
         device = TOTPDevice.objects.create(user=user, confirmed=True)
         return redirect('dashboard')
-    
+
     device = TOTPDevice.objects.create(user=user, confirmed=False)
     uri = device.config_url
     img = qrcode.make(uri)
@@ -54,14 +54,16 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 def verify_totp(request):
-    print(request.session)
     user_id = request.session.get('pre_otp_user_id')
     if not user_id:
         return redirect('login_page')
-    
+
     user = get_object_or_404(User, pk=user_id)
     device = TOTPDevice.objects.filter(user=user, confirmed=True).first()
-    
+
+    if not device:
+        return HttpResponse("No TOTP device found for user.")
+
     if request.method == 'POST':
         form = TOTPVerifyForm(request.POST)
         if form.is_valid():
