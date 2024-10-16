@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from phonenumber_field.modelfields import PhoneNumberField
 from django.core.validators import EmailValidator
 from django.db.models.signals import post_save
@@ -9,10 +9,10 @@ class ElixirModel(models.Model):
     photo = models.ImageField(upload_to='media/', null=True, blank=True)
     img_description = models.CharField(max_length=255, default="")
     name = models.CharField(max_length=200)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', default=1)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone_number = PhoneNumberField(max_length=128, default="", region='IN')
     email = models.EmailField(blank=True, default="@elixir.com")
-    designation = models.CharField(max_length=200)
+    designation = models.ForeignKey(Group, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
     age = models.IntegerField()
     salary = models.IntegerField()

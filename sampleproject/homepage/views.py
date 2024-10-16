@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django_otp.decorators import otp_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -83,13 +83,23 @@ def create_view(request):
     context = {}
     form = GeeksForm(request.POST or None)
     if form.is_valid():
-        elixir_instance = form.save()
+        elixir_instance = form.save(commit=False)
         username = elixir_instance.name
         counter = 1
         while User.objects.filter(username=username).exists():
             username = f"{elixir_instance.name}{counter}"
             counter += 1
-        User.objects.create_user(username=username, password=elixir_instance.password, email=elixir_instance.email)
+        # Create a new User instance
+        user = User.objects.create_user(username=username, password=elixir_instance.password, email=elixir_instance.email)
+        
+        # Assign the user to the corresponding group (designation)
+        group = elixir_instance.designation
+        user.groups.add(group)
+        
+        # Save the employee instance after creating the user to ensure the user object is available
+        elixir_instance.user = user
+        elixir_instance.save()
+        
         return redirect('add_employee')
     context['form'] = form
     return render(request, "create_view.html", context)
