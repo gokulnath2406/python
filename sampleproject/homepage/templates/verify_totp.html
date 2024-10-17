@@ -2,13 +2,66 @@
 <html>
 <head>
     <title>Verify TOTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function showError(message) {
+            alert(message);
+        }
+    </script>
 </head>
 <body>
-    <h1>Verify TOTP</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Verify</button>
-    </form>
+    <div class="container">
+        <h1>Verify TOTP</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Verify</button>
+        </form>
+        {% if error_message %}
+        <script>
+            showError("{{ error_message }}");
+        </script>
+        {% endif %}
+    </div>
 </body>
 </html>

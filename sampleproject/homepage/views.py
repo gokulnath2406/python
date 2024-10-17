@@ -64,21 +64,21 @@ def verify_totp(request):
     if not device:
         return HttpResponse("No TOTP device found for user.")
 
+    error_message = None
     if request.method == 'POST':
         form = TOTPVerifyForm(request.POST)
         if form.is_valid():
             token = form.cleaned_data.get('token')
             if device.verify_token(token):
                 login(request, user)
-                # Use pop to safely remove the key if it exists
                 request.session.pop('pre_otp_user_id', None)
                 return redirect('dashboard')
             else:
-                return HttpResponse("Invalid TOTP token.")
+                error_message = "Invalid TOTP token."
     else:
         form = TOTPVerifyForm()
 
-    return render(request, 'verify_totp.html', {'form': form})
+    return render(request, 'verify_totp.html', {'form': form, 'error_message': error_message})
 
 def create_view(request):
     context = {}
