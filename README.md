@@ -1,2 +1,1 @@
-# python
-Basic CRUD
+HR management system
