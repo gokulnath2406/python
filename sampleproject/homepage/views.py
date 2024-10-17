@@ -70,7 +70,8 @@ def verify_totp(request):
             token = form.cleaned_data.get('token')
             if device.verify_token(token):
                 login(request, user)
-                del request.session['pre_otp_user_id']
+                # Use pop to safely remove the key if it exists
+                request.session.pop('pre_otp_user_id', None)
                 return redirect('dashboard')
             else:
                 return HttpResponse("Invalid TOTP token.")
