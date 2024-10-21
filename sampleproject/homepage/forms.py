@@ -20,11 +20,11 @@ class GeeksForm(forms.ModelForm):
             "phone_number",
             "email",
             "age",
+            'marital_status',
             "salary",
             "designation",
             "password",
             "status",
-            'img_description',
         ]
     def __init__(self, *args, **kwargs):
         super(GeeksForm, self).__init__(*args, **kwargs)

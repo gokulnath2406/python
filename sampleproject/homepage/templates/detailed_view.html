@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Details</title>
+    <title>Employee Management</title>
     <style>
         body {
             margin: 0;
@@ -14,12 +14,43 @@
             background-position: center;
             background-repeat: no-repeat;
             display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
         }
 
+        .sidenav {
+            height: 100%;
+            width: 220px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
         .main {
+            margin-left: 220px; /* Same as the width of the sidenav */
+            width: calc(100% - 220px);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
             width: 60%;
             margin: 20px auto;
             padding: 20px;
@@ -27,8 +58,12 @@
             border-radius: 8px;
             background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
+            display: none; /* Hide by default */
             align-items: center;
+        }
+
+        .active {
+            display: flex; /* Show the active section */
         }
 
         .photo {
@@ -61,10 +96,74 @@
             margin-left: 10px;
             color: #555;
         }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select,
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 200px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
     </style>
+    <script>
+        function showSection(sectionId) {
+            var sections = document.getElementsByClassName('content');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('active');
+            }
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
 </head>
 <body>
-    <div class="main">
+
+<div class="sidenav">
+    <a href="#basic-details" onclick="showSection('basic-details')">Employee Basic Details</a>
+    <a href="#update-details" onclick="showSection('update-details')">Employee Details Update</a>
+    <a href="leave-attendance.html">Leave & Attendance</a>
+</div>
+
+<div class="main">
+    <div class="content" id="basic-details">
         <div class="photo">
             {% if dataset.photo_url %}
                 <img src="{{ dataset.photo_url }}" alt="Employee Photo">
@@ -91,5 +190,47 @@
             </div>
         </div>
     </div>
+
+    <div class="content" id="update-details">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <p>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ object.name }}">
+            </p>
+
+            <p>
+                <label for="age">Age:</label>
+                <input type="text" id="age" name="age" value="{{ object.age }}">
+            </p>
+
+            <p>
+                <label for="designation">Designation:</label>
+                <input type="text" id="designation" name="designation" value="{{ object.designation }}">
+            </p>
+
+            <p>
+                <label for="salary">Salary:</label>
+                <input type="text" id="salary" name="salary" value="{{ object.salary }}">
+            </p>
+
+            {% if object.photo %}
+                <p>
+                    <label>Current Photo:</label><br>
+                    <img src="{{ object.photo.url }}" alt="Current Photo">
+                </p>
+            {% endif %}
+
+            <p>
+                <label for="photo">Upload New Photo:</label>
+                <input type="file" id="photo" name="photo">
+            </p>
+
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

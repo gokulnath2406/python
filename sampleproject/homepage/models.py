@@ -5,9 +5,21 @@ from django.core.validators import EmailValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+class MaritalStatus(models.Model):
+    STATUS_CHOICES = [
+        ('single', 'Single'),
+        ('married', 'Married'),
+        ('divorced', 'Divorced'),
+        ('widowed', 'Widowed'),
+    ]
+    
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, unique=True)
+    
+    def __str__(self):
+        return self.status
+
 class ElixirModel(models.Model):
     photo = models.ImageField(upload_to='media/', null=True, blank=True)
-    img_description = models.CharField(max_length=255, default="")
     name = models.CharField(max_length=200)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone_number = PhoneNumberField(max_length=128, default="", region='IN')
@@ -17,6 +29,7 @@ class ElixirModel(models.Model):
     age = models.IntegerField()
     salary = models.IntegerField()
     password = models.CharField(max_length=15)
+    marital_status = models.ForeignKey(MaritalStatus, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name

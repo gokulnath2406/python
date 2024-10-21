@@ -50,6 +50,7 @@ def login_view(request):
         else:
             return HttpResponse("Invalid login.")
     return render(request, 'login_page.html')
+
 def dashboard(request):
     return render(request, 'dashboard.html')
 
@@ -80,6 +81,7 @@ def verify_totp(request):
 
     return render(request, 'verify_totp.html', {'form': form, 'error_message': error_message})
 
+@login_required
 def create_view(request):
     context = {}
     form = GeeksForm(request.POST or None)
@@ -105,11 +107,13 @@ def create_view(request):
     context['form'] = form
     return render(request, "create_view.html", context)
 
+@login_required
 def display_view(request):
     context = {}
     context['dataset'] = ElixirModel.objects.all()
     return render(request, "display_view.html", context)
 
+@login_required
 def detailed_view(request, id):
     employee = get_object_or_404(ElixirModel, id=id)
     dataset = {
@@ -121,12 +125,14 @@ def detailed_view(request, id):
     }
     return render(request, "detailed_view.html", {'dataset': dataset})
 
+@login_required
 def delete_view(request, id):
     obj = get_object_or_404(ElixirModel, id=id)
     if obj:
         obj.delete()
     return redirect('view_employee')  # Assuming 'view_employee' is the name of the URL pattern
 
+@login_required
 def update_view(request, id):
     context = {}
     obj = get_object_or_404(ElixirModel, id=id)
