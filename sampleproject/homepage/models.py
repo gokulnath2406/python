@@ -18,6 +18,12 @@ class MaritalStatus(models.Model):
     def __str__(self):
         return self.status
 
+class DateOfBirth(models.Model):
+    date_of_birth = models.DateField()
+    
+    def __str__(self):
+        return self.date_of_birth.strftime('%Y-%m-%d')
+
 class ElixirModel(models.Model):
     photo = models.ImageField(upload_to='media/', null=True, blank=True)
     name = models.CharField(max_length=200)
@@ -30,6 +36,7 @@ class ElixirModel(models.Model):
     salary = models.IntegerField()
     password = models.CharField(max_length=15)
     marital_status = models.ForeignKey(MaritalStatus, on_delete=models.SET_NULL, null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name

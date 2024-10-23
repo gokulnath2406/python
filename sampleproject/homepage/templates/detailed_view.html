@@ -14,7 +14,8 @@
             background-position: center;
             background-repeat: no-repeat;
             display: flex;
-            height: 100vh;
+            min-height: 100vh;
+            flex-direction: column;
         }
 
         .sidenav {
@@ -42,23 +43,26 @@
         }
 
         .main {
-            margin-left: 220px; /* Same as the width of the sidenav */
+            margin-left: 220px;
             width: calc(100% - 220px);
             padding: 20px;
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-sizing: border-box;
         }
 
         .content {
-            width: 60%;
-            margin: 20px auto;
+            width: 100%;
+            max-width: 800px;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: none; /* Hide by default */
+            flex-direction: column;
             align-items: center;
         }
 
@@ -67,8 +71,7 @@
         }
 
         .photo {
-            margin-right: 20px;
-            flex-shrink: 0;
+            margin-bottom: 20px;
         }
 
         .photo img {
@@ -80,7 +83,7 @@
         }
 
         .details {
-            flex-grow: 1;
+            width: 100%;
         }
 
         .detail-item {
@@ -98,6 +101,7 @@
         }
 
         form {
+            width: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -119,6 +123,10 @@
             border-radius: 5px;
             box-sizing: border-box;
             font-size: 1em;
+        }
+
+        input[disabled] {
+            background-color: #f0f0f0;
         }
 
         img {
@@ -177,16 +185,24 @@
                 <span class="detail-value">{{ dataset.name }}</span>
             </div>
             <div class="detail-item">
-                <span class="detail-label">Age:</span>
-                <span class="detail-value">{{ dataset.age }}</span>
+                <span class="detail-label">Date of Birth:</span>
+                <span class="detail-value">{{ dataset.dob }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Mobile Number:</span>
+                <span class="detail-value">{{ dataset.mobile_number }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Personal Email:</span>
+                <span class="detail-value">{{ dataset.personal_email }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Office Email:</span>
+                <span class="detail-value">{{ dataset.office_email }}</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Designation:</span>
                 <span class="detail-value">{{ dataset.designation }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Salary:</span>
-                <span class="detail-value">{{ dataset.salary }}</span>
             </div>
         </div>
     </div>
@@ -197,17 +213,32 @@
 
             <p>
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" value="{{ object.name }}">
+                <input type="text" id="name" name="name" value="{{ object.name }}" disabled>
             </p>
 
             <p>
-                <label for="age">Age:</label>
-                <input type="text" id="age" name="age" value="{{ object.age }}">
+                <label for="dob">Date of Birth:</label>
+                <input type="text" id="dob" name="dob" value="{{ object.dob }}">
+            </p>
+
+            <p>
+                <label for="mobile_number">Mobile Number:</label>
+                <input type="text" id="mobile_number" name="mobile_number" value="{{ object.mobile_number }}">
+            </p>
+
+            <p>
+                <label for="personal_email">Personal Email:</label>
+                <input type="text" id="personal_email" name="personal_email" value="{{ object.personal_email }}">
+            </p>
+
+            <p>
+                <label for="office_email">Office Email:</label>
+                <input type="text" id="office_email" name="office_email" value="{{ object.office_email }}">
             </p>
 
             <p>
                 <label for="designation">Designation:</label>
-                <input type="text" id="designation" name="designation" value="{{ object.designation }}">
+                <input type="text" id="designation" name="designation" value="{{ object.designation }}" disabled>
             </p>
 
             <p>
