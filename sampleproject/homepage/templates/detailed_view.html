@@ -14,8 +14,10 @@
             background-position: center;
             background-repeat: no-repeat;
             display: flex;
-            min-height: 100vh;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
         }
 
         .sidenav {
@@ -44,12 +46,11 @@
 
         .main {
             margin-left: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: calc(100% - 220px);
             padding: 20px;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             box-sizing: border-box;
         }
 
@@ -61,13 +62,9 @@
             border-radius: 8px;
             background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: none; /* Hide by default */
+            display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .active {
-            display: flex; /* Show the active section */
         }
 
         .photo {
@@ -88,34 +85,34 @@
 
         .detail-item {
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
         }
 
         .detail-label {
             font-weight: bold;
             color: #333;
+            margin-right: 10px;
+            flex: 1;
         }
 
         .detail-value {
-            margin-left: 10px;
+            margin-right: 10px;
             color: #555;
+            flex: 2;
         }
 
-        form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        form p {
-            margin-bottom: 15px;
+        .detail-edit {
+            cursor: pointer;
+            color: #007BFF;
+            flex: 0;
         }
 
         input[type="text"],
         input[type="email"],
         input[type="password"],
         select,
-        textarea,
-        input[type="file"] {
+        textarea {
             width: 100%;
             padding: 10px;
             margin: 5px 0 10px;
@@ -153,12 +150,13 @@
         }
     </style>
     <script>
-        function showSection(sectionId) {
-            var sections = document.getElementsByClassName('content');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].classList.remove('active');
-            }
-            document.getElementById(sectionId).classList.add('active');
+        function enableEdit(fieldId) {
+            document.getElementById(fieldId).disabled = false;
+        }
+
+        function saveChanges() {
+            // Add logic to save changes to the server
+            alert('Changes saved!');
         }
     </script>
 </head>
@@ -166,7 +164,6 @@
 
 <div class="sidenav">
     <a href="#basic-details" onclick="showSection('basic-details')">Employee Basic Details</a>
-    <a href="#update-details" onclick="showSection('update-details')">Employee Details Update</a>
     <a href="leave-attendance.html">Leave & Attendance</a>
 </div>
 
@@ -182,84 +179,36 @@
         <div class="details">
             <div class="detail-item">
                 <span class="detail-label">Name:</span>
-                <span class="detail-value">{{ dataset.name }}</span>
+                <input type="text" id="name" name="name" value="{{ dataset.name }}" disabled>
+                <span class="detail-edit" onclick="enableEdit('name')">✏️</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Date of Birth:</span>
-                <span class="detail-value">{{ dataset.dob }}</span>
+                <input type="text" id="dob" name="dob" value="{{ dataset.date_of_birth }}" disabled>
+                <span class="detail-edit" onclick="enableEdit('dob')">✏️</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Mobile Number:</span>
-                <span class="detail-value">{{ dataset.mobile_number }}</span>
+                <input type="text" id="mobile_number" name="mobile_number" value="{{ dataset.mobile_number }}" disabled>
+                <span class="detail-edit" onclick="enableEdit('mobile_number')">✏️</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Personal Email:</span>
-                <span class="detail-value">{{ dataset.personal_email }}</span>
+                <input type="text" id="personal_email" name="personal_email" value="{{ dataset.personal_email }}" disabled>
+                <span class="detail-edit" onclick="enableEdit('personal_email')">✏️</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Office Email:</span>
-                <span class="detail-value">{{ dataset.office_email }}</span>
+                <input type="text" id="office_email" name="office_email" value="{{ dataset.office_email }}" disabled>
+                <span class="detail-edit" onclick="enableEdit('office_email')">✏️</span>
             </div>
             <div class="detail-item">
                 <span class="detail-label">Designation:</span>
-                <span class="detail-value">{{ dataset.designation }}</span>
+                <input type="text" id="designation" name="designation" value="{{ dataset.designation }}" disabled>
+                <span class="detail-edit" onclick="enableEdit('designation')">✏️</span>
             </div>
         </div>
-    </div>
-
-    <div class="content" id="update-details">
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-
-            <p>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" value="{{ object.name }}" disabled>
-            </p>
-
-            <p>
-                <label for="dob">Date of Birth:</label>
-                <input type="text" id="dob" name="dob" value="{{ object.dob }}">
-            </p>
-
-            <p>
-                <label for="mobile_number">Mobile Number:</label>
-                <input type="text" id="mobile_number" name="mobile_number" value="{{ object.mobile_number }}">
-            </p>
-
-            <p>
-                <label for="personal_email">Personal Email:</label>
-                <input type="text" id="personal_email" name="personal_email" value="{{ object.personal_email }}">
-            </p>
-
-            <p>
-                <label for="office_email">Office Email:</label>
-                <input type="text" id="office_email" name="office_email" value="{{ object.office_email }}">
-            </p>
-
-            <p>
-                <label for="designation">Designation:</label>
-                <input type="text" id="designation" name="designation" value="{{ object.designation }}" disabled>
-            </p>
-
-            <p>
-                <label for="salary">Salary:</label>
-                <input type="text" id="salary" name="salary" value="{{ object.salary }}">
-            </p>
-
-            {% if object.photo %}
-                <p>
-                    <label>Current Photo:</label><br>
-                    <img src="{{ object.photo.url }}" alt="Current Photo">
-                </p>
-            {% endif %}
-
-            <p>
-                <label for="photo">Upload New Photo:</label>
-                <input type="file" id="photo" name="photo">
-            </p>
-
-            <button type="submit">Update</button>
-        </form>
+        <button onclick="saveChanges()">Save Changes</button>
     </div>
 </div>
 

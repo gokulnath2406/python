@@ -19,7 +19,7 @@ class GeeksForm(forms.ModelForm):
             "name",
             "phone_number",
             "email",
-            "age",
+            "date_of_birth",
             'marital_status',
             "salary",
             "designation",

@@ -32,7 +32,6 @@ class ElixirModel(models.Model):
     email = models.EmailField(blank=True, default="@elixir.com")
     designation = models.ForeignKey(Group, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
-    age = models.IntegerField()
     salary = models.IntegerField()
     password = models.CharField(max_length=15)
     marital_status = models.ForeignKey(MaritalStatus, on_delete=models.SET_NULL, null=True, blank=True)

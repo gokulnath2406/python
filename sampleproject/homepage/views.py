@@ -118,10 +118,12 @@ def detailed_view(request, id):
     employee = get_object_or_404(ElixirModel, id=id)
     dataset = {
         'name': employee.name,
-        'age': employee.age,
-        'designation': employee.designation,
+        'designation': employee.designation.name if employee.designation else None,  # Assuming designation is a ForeignKey to Group
+        'phone_number': employee.phone_number,
         'salary': employee.salary,
-        'photo_url': employee.photo.url if employee.photo else None
+        'photo_url': employee.photo.url if employee.photo else None,
+        'marital_status': employee.marital_status.status if employee.marital_status else 'Not specified',
+        'date_of_birth': employee.date_of_birth.strftime('%Y-%m-%d') if employee.date_of_birth else 'Not specified'
     }
     return render(request, "detailed_view.html", {'dataset': dataset})
 
@@ -164,21 +166,6 @@ def update_view(request, id):
 
 @login_required
 def attendance_calendar(request, year=None, month=None):
-    """
-    Renders the attendance calendar for a specific employee (logged-in user).
-
-    - Handles GET requests to display the calendar for a specific month (default: current month).
-    - Handles POST requests to update attendance for a specific date.
-
-    Args:
-        request (HttpRequest): The Django request object.
-        year (int, optional): The year for the calendar (defaults to current year).
-        month (int, optional): The month for the calendar (defaults to current month).
-
-    Returns:
-        HttpResponse: Renders the 'attendance_calendar.html' template with context data.
-    """
-
     # Get current date or specified year/month
     today = date.today()
     if year and month:
@@ -204,27 +191,6 @@ def attendance_calendar(request, year=None, month=None):
     # Get calendar data for the month
     year, month = selected_date.year, selected_date.month
     month_calendar = monthcalendar(year, month)
-
-    # Get attendance records for the employee and month
-    # attendances = Attendance.objects.filter(employee=employee, date__year=year, date__month=month)
-    # attendance_dict = {attendance.date.day: attendance.status for attendance in attendances}
-
-    # if request.method == 'POST':
-    #     # Handle POST request to update attendance
-    #     selected_day = int(request.POST.get('selected_day'))
-    #     new_status = request.POST.get('status')  # Expected to be 'present' or 'absent'
-
-    #     # Check for existing attendance record for the day
-    #     try:
-    #         attendance = Attendance.objects.get(employee=employee.id, date=date(year, month, selected_day))
-    #         attendance.status = new_status
-    #         attendance.save()
-    #     except Attendance.DoesNotExist:
-    #         # Create new attendance record if it doesn't exist
-    #         Attendance.objects.create(employee=employee, date=date(year, month, selected_day), status=new_status)
-
-    #     # Redirect back to the calendar after updating
-    #     return redirect('attendance_calendar', year=year, month=month)
 
     context = {
         'year': year,
