@@ -30,6 +30,7 @@ class ElixirModel(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone_number = PhoneNumberField(max_length=128, default="", region='IN')
     email = models.EmailField(blank=True, default="@elixir.com")
+    personal_email = models.EmailField(blank=True, default="")
     designation = models.ForeignKey(Group, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
     salary = models.IntegerField()

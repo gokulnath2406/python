@@ -121,11 +121,19 @@ def detailed_view(request, id):
         'designation': employee.designation.name if employee.designation else None,  # Assuming designation is a ForeignKey to Group
         'phone_number': employee.phone_number,
         'salary': employee.salary,
+        'personal_email': employee.personal_email,
+        'email': employee.email,
         'photo_url': employee.photo.url if employee.photo else None,
         'marital_status': employee.marital_status.status if employee.marital_status else 'Not specified',
         'date_of_birth': employee.date_of_birth.strftime('%Y-%m-%d') if employee.date_of_birth else 'Not specified'
     }
     return render(request, "detailed_view.html", {'dataset': dataset})
+
+    
+    context = {}
+    obj = get_object_or_404(ElixirModel, id=id)
+    if form.is_valid():
+        user.save()
 
 @login_required
 def delete_view(request, id):
@@ -185,7 +193,6 @@ def attendance_calendar(request, year=None, month=None):
 
     # Get employee (logged-in user)
     user = request.user.id  # Assuming user is linked to an Employee model
-    print(user,"checkkkkkkkkkkkkkkkkkk")
     employee = ElixirModel.objects.all()  # Assuming user has a related Employee
 
     # Get calendar data for the month

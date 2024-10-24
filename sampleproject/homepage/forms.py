@@ -18,6 +18,7 @@ class GeeksForm(forms.ModelForm):
             'photo',
             "name",
             "phone_number",
+            "personal_email",
             "email",
             "date_of_birth",
             'marital_status',
